@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Lab 4: Particle Swarm{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Лаб 4: Алгоритм роя частиц</h2>
+    <div style="background: #38bdf820; color: var(--accent-color); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; border: 1px solid var(--accent-color);">
+        Swarm Intelligence
+    </div>
+</div>
+
+<div class="grid-container" style="grid-template-columns: 320px 1fr;">
+
+    <!-- Левая колонка: форма + результат -->
+    <div class="card">
+        <form method="get">
+            <label>Функция
+                <select name="func">
+                    {% for fn in functions %}
+                        <option {% if fn == params.func %}selected{% endif %}>{{ fn }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>Размер роя
+                <input type="number" name="swarm_size" value="{{ params.swarm_size }}" min="10" max="500">
+            </label>
+
+            <label>Итерации
+                <input type="number" name="n_iter" value="{{ params.n_iter }}" min="10" max="1000">
+            </label>
+
+            <label>χ (current_ratio)
+                <input type="number" name="current_ratio" value="{{ params.current_ratio }}" step="0.01">
+            </label>
+
+            <label>φp (local_ratio)
+                <input type="number" name="local_ratio" value="{{ params.local_ratio }}" step="0.1">
+            </label>
+
+            <label>φg (global_ratio)
+                <input type="number" name="global_ratio" value="{{ params.global_ratio }}" step="0.1">
+            </label>
+
+            <button type="submit">Запустить</button>
+        </form>
+
+        <div class="result-badge" style="margin-top: 25px;">
+            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">Лучшее решение:</div>
+            <div style="font-size: 1.2rem; font-weight: bold;">
+                f* = <span class="res-val">{{ "%.8f"|format(result.f) }}</span>
+            </div>
+            <div style="font-size: 0.85rem; margin-top: 8px; opacity: 0.8;">
+                x: {{ "%.4f"|format(result.x) }},
+                y: {{ "%.4f"|format(result.y) }}
+            </div>
+            <div style="font-size: 0.8rem; margin-top: 6px; color: #64748b;">
+                Итераций: {{ result.iterations }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Правая колонка: графики -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">Анимация роя</h3>
+            {{ graph_anim|safe }}
+        </div>
+
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">Сходимость</h3>
+            {{ graph_conv|safe }}
+        </div>
+
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">3D траектория gbest</h3>
+            {{ graph_surf|safe }}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

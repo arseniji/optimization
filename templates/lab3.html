@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Lab 3: Genetic Algorithm{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Лаб 3: Генетический алгоритм</h2>
+    <div style="background: #38bdf820; color: var(--accent-color); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; border: 1px solid var(--accent-color);">
+        Эволюционный метод
+    </div>
+</div>
+
+<div class="grid-container" style="grid-template-columns: 320px 1fr;">
+    <div class="card">
+        <form method="get">
+            <div class="form-group">
+                <label>Функция</label>
+                <select name="func">
+                    {% for f in functions %}
+                        <option value="{{f}}" {% if f == params.func %}selected{% endif %}>{{f}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Размер популяции: <b class="res-val" id="pop_val">{{params.pop_size}}</b></label>
+                <input type="range" name="pop_size" min="10" max="500" step="10"
+                       value="{{params.pop_size}}" oninput="document.getElementById('pop_val').innerText=this.value">
+            </div>
+            
+            <div class="form-group">
+                <label>Поколений: <b class="res-val" id="gen_val">{{params.n_gen}}</b></label>
+                <input type="range" name="n_gen" min="50" max="1000" step="50"
+                       value="{{params.n_gen}}" oninput="document.getElementById('gen_val').innerText=this.value">
+            </div>
+            
+            <div class="form-group">
+                <label>Вероятность мутации</label>
+                <input type="number" name="mut_rate" step="0.01" value="{{params.mut_rate}}">
+            </div>
+            
+            <button type="submit">Запустить эволюцию</button>
+        </form>
+
+        <div class="result-badge" style="margin-top: 25px;">
+            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">Лучшее решение:</div>
+            <div style="font-size: 1.2rem; font-weight: bold;">
+                f* = <span class="res-val">{{ "%.8f"|format(result.best_f) }}</span>
+            </div>
+            <div style="font-size: 0.85rem; margin-top: 8px; opacity: 0.8;">
+                x: {{ "%.4f"|format(result.best_x) }}, y: {{ "%.4f"|format(result.best_y) }}
+            </div>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="card" style="min-height: 400px; padding: 10px;">
+            {{ graph_conv|safe }}
+        </div>
+        <div class="card" style="padding: 10px;">
+            {{ graph_surf|safe }}
+            <p style="color: #475569; text-align: center; font-size: 0.9rem; margin-top: 10px;">
+                Визуализация поиска оптимума (3D)
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Optimization Labs{% endblock %}</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --sidebar-color: #1e293b;
+            --accent-color: #38bdf8;
+            --text-main: #f1f5f9;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+        }
+
+        body {
+            margin: 0; font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color); color: var(--text-main);
+            display: flex; height: 100vh; overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px; background: var(--sidebar-color);
+            border-right: 1px solid var(--border-color); display: flex; flex-direction: column;
+        }
+        .sidebar-header { padding: 25px 20px; font-weight: bold; font-size: 1.3rem; color: var(--accent-color); letter-spacing: 1px; }
+
+        .nav-item {
+            padding: 14px 20px; text-decoration: none; color: #94a3b8;
+            border-left: 4px solid transparent; transition: 0.3s;
+            display: flex; align-items: center;
+        }
+        .nav-item:hover { background: #334155; color: white; }
+        .nav-item.active {
+            background: #334155; color: white; border-left-color: var(--accent-color);
+            background: linear-gradient(90deg, #38bdf815 0%, rgba(0,0,0,0) 100%);
+        }
+        .lab-num { font-family: monospace; margin-right: 10px; opacity: 0.6; font-size: 0.8rem; }
+
+        /* Main Layout */
+        .content { flex: 1; overflow-y: auto; padding: 30px; }
+        .grid-container { display: grid; grid-template-columns: 350px 1fr; gap: 25px; }
+
+        /* Components */
+        .card { background: var(--card-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border-color); }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 6px; font-size: 0.85rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        input, select, textarea {
+            width: 100%; background: #0f172a; border: 1px solid var(--border-color);
+            padding: 10px; border-radius: 8px; color: white; box-sizing: border-box;
+            outline: none; transition: 0.2s;
+        }
+        input:focus, select:focus { border-color: var(--accent-color); }
+
+        button {
+            width: 100%; padding: 12px; background: var(--accent-color);
+            border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
+            color: var(--bg-color); transition: 0.2s;
+        }
+        button:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+        .result-badge {
+            background: #0f172a; padding: 12px; border-radius: 10px;
+            margin-top: 10px; border: 1px solid var(--border-color);
+        }
+        .res-val { color: var(--accent-color); font-family: 'Consolas', monospace; }
+
+        .status-footer { margin-top: auto; padding: 20px; font-size: 0.8rem; color: #475569; border-top: 1px solid var(--border-color); }
+
+        /* Специальные стили для лаб */
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-header">мяу</div>
+
+    <a href="/" class="nav-item {% if active_lab == 1 %}active{% endif %}">
+        <span class="lab-num">01</span> Градиентный спуск
+    </a>
+    <a href="/lab2" class="nav-item {% if active_lab == 2 %}active{% endif %}">
+        <span class="lab-num">02</span> Квадратичное Пр.
+    </a>
+    <a href="/lab3" class="nav-item {% if active_lab == 3 %}active{% endif %}">
+        <span class="lab-num">03</span> Генетический Алг.
+    </a>
+    <a href="/lab4" class="nav-item {% if active_lab == 4 %}active{% endif %}">
+        <span class="lab-num">04</span> Рой Частиц
+    </a>
+    <a href="/lab5" class="nav-item {% if active_lab == 5 %}active{% endif %}">
+        <span class="lab-num">05</span> Пчелы
+    </a>
+    <a href="/lab6" class="nav-item {% if active_lab == 6 %}active{% endif %}">
+        <span class="lab-num">06</span> иммунитет
+    </a>
+    <a href="/lab7" class="nav-item {% if active_lab == 7 %}active{% endif %}">
+        <span class="lab-num">07</span> бактерии
+    </a>
+    <a href="/lab8" class="nav-item {% if active_lab == 8 %}active{% endif %}">
+        <span class="lab-num">08</span> гибридизация
+    </a>
+</div>
+
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

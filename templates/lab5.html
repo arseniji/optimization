@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Lab 5: Bees Algorithm{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Лаб 5: B-алгоритм (пчелиный рой)</h2>
+    <div style="background: #f59e0b20; color: #f59e0b; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; border: 1px solid #f59e0b;">
+        Bees Algorithm
+    </div>
+</div>
+
+<div class="grid-container" style="grid-template-columns: 340px 1fr;">
+
+    <!-- Левая колонка: форма + результат -->
+    <div class="card">
+        <form method="get">
+            <label>Функция
+                <select name="func">
+                    {% for fn in functions %}
+                        <option {% if fn == params.func %}selected{% endif %}>{{ fn }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label title="Число пчёл-разведчиков |S^o|">Разведчики |S°|
+                <input type="number" name="n_scouts" value="{{ params.n_scouts }}" min="4" max="200">
+            </label>
+
+            <label title="Число элитных участков |A^b|">Элитные участки |A^b|
+                <input type="number" name="n_elite" value="{{ params.n_elite }}" min="1" max="20">
+            </label>
+
+            <label title="Число перспективных участков |A^p|">Перспективные |A^p|
+                <input type="number" name="n_perspective" value="{{ params.n_perspective }}" min="1" max="20">
+            </label>
+
+            <label title="Рабочих пчёл на элитный участок n_b">Пчёл/элитный n_b
+                <input type="number" name="n_elite_bees" value="{{ params.n_elite_bees }}" min="1" max="50">
+            </label>
+
+            <label title="Рабочих пчёл на перспективный участок n_p">Пчёл/перспект. n_p
+                <input type="number" name="n_persp_bees" value="{{ params.n_persp_bees }}" min="1" max="50">
+            </label>
+
+            <label title="Радиус участков r">Радиус r
+                <input type="number" name="radius" value="{{ params.radius }}" step="0.05" min="0.01" max="5.0">
+            </label>
+
+            <label title="Максимальное число итераций">Макс. итерации
+                <input type="number" name="max_iter" value="{{ params.max_iter }}" min="10" max="2000">
+            </label>
+
+            <label title="Число итераций стагнации для останова δ_t">Останов (стагн.) δ_t
+                <input type="number" name="stagnation_limit" value="{{ params.stagnation_limit }}" min="1" max="200">
+            </label>
+
+            <label style="flex-direction: row; align-items: center; gap: 10px;" title="Улучшенный B-алгоритм (IBA): адаптивный радиус">
+                <input type="checkbox" name="use_iba" value="true" {% if params.use_iba %}checked{% endif %}
+                       style="width: auto;">
+                Улучшенный (IBA)
+            </label>
+
+            <label title="Параметр редукции радиуса ρ ∈ (0,1] для IBA">Редукция ρ (IBA)
+                <input type="number" name="rho" value="{{ params.rho }}" step="0.05" min="0.1" max="1.0">
+            </label>
+
+            <button type="submit">Запустить</button>
+        </form>
+
+        <div class="result-badge" style="margin-top: 25px;">
+            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">Лучшее решение:</div>
+            <div style="font-size: 1.2rem; font-weight: bold; color: #f59e0b;">
+                f* = <span class="res-val">{{ "%.8f"|format(result.f) }}</span>
+            </div>
+            <div style="font-size: 0.85rem; margin-top: 8px; opacity: 0.8;">
+                x: {{ "%.4f"|format(result.x) }},
+                y: {{ "%.4f"|format(result.y) }}
+            </div>
+            <div style="font-size: 0.8rem; margin-top: 6px; color: #64748b;">
+                Итераций: {{ result.iterations }}
+            </div>
+            <div style="font-size: 0.75rem; margin-top: 4px; color: #475569;">
+                Рабочих пчёл: |S^w| = n_b·|A^b| + n_p·|A^p| =
+                {{ params.n_elite_bees }}·{{ params.n_elite }} + {{ params.n_persp_bees }}·{{ params.n_perspective }}
+                = {{ params.n_elite_bees * params.n_elite + params.n_persp_bees * params.n_perspective }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Правая колонка: графики -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">Анимация роя пчёл</h3>
+            {{ graph_anim|safe }}
+        </div>
+
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">Сходимость</h3>
+            {{ graph_conv|safe }}
+        </div>
+
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">3D траектория лучшей пчелы</h3>
+            {{ graph_surf|safe }}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

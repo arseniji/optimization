@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+    textarea { height: 80px; font-family: monospace; color: var(--accent-color); }
+    .val-chip { background: #334155; padding: 5px 12px; border-radius: 15px; border: 1px solid var(--accent-color); font-size: 0.9rem;}
+{% endblock %}
+
+{% block content %}
+    <h2>Квадратичное программирование</h2>
+    <p style="color: #94a3b8; margin-top: -15px;">Модифицированный симплекс-метод</p>
+
+    <div class="grid-container" style="grid-template-columns: 400px 1fr;">
+        <div class="card">
+            <form method="get">
+                <div class="form-group"><label>Вектор c</label><input type="text" name="c_str" value="{{params.c}}"></div>
+                <div class="form-group"><label>Матрица D</label><textarea name="D_str">{{params.D}}</textarea></div>
+                <div class="form-group"><label>Матрица A</label><textarea name="A_str">{{params.A}}</textarea></div>
+                <div class="form-group"><label>Вектор b</label><input type="text" name="b_str" value="{{params.b}}"></div>
+                <button type="submit">Запустить</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>Статус: <span style="color: {{ 'var(--accent-color)' if 'Успешно' in result.status else '#ef4444' }}">{{ result.status }}</span></h3>
+            {% if result.x %}
+                <label>Оптимальный вектор x*:</label>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 15px 0;">
+                    {% for val in result.x %}
+                        <div class="val-chip">x<sub>{{loop.index}}</sub> = {{val}}</div>
+                    {% endfor %}
+                </div>
+                <div style="margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                    <span style="font-size: 1.4rem;">f(x*) = <b class="res-val">{{ result.f }}</b></span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

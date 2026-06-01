@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Lab 7: Bacterial Foraging Optimization{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Лаб 7: Бактериальная оптимизация (BFO)</h2>
+    <div style="background: #f59e0b20; color: #f59e0b; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; border: 1px solid #f59e0b;">
+        Bacterial Foraging
+    </div>
+</div>
+
+<div class="grid-container" style="grid-template-columns: 340px 1fr;">
+
+    <!-- Левая колонка: форма + результат -->
+    <div class="card">
+<form method="get">
+    <label>Функция
+        <select name="func">
+            {% for fn in functions %}
+                <option {% if fn == params.func %}selected{% endif %}>{{ fn }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <label title="Размер популяции бактерий |S|">Размер популяции |S|
+        <input type="number" name="pop_size" value="{{ params.pop_size }}" min="10" max="500">
+    </label>
+
+    <label title="Число шагов хемотаксиса на каждой итерации">Шагов хемотаксиса t̂
+        <input type="number" name="n_chemotaxis" value="{{ params.n_chemotaxis }}" min="1" max="100">
+    </label>
+
+    <label title="Период репродукции (каждые N итераций)">Период репродукции r̂
+        <input type="number" name="n_reproduction" value="{{ params.n_reproduction }}" min="1" max="50">
+    </label>
+
+    <label title="Период элиминации (каждые N итераций)">Период элиминации l̂
+        <input type="number" name="n_elimination" value="{{ params.n_elimination }}" min="1" max="30">
+    </label>
+
+    <label title="Величина шага хемотаксиса λ">Шаг хемотаксиса λ
+        <input type="number" name="step_size" value="{{ params.step_size }}" step="0.01" min="0.001" max="2.0">
+    </label>
+
+    <label title="Максимальное число шагов плавания">Шагов плавания n_swim
+        <input type="number" name="n_swim" value="{{ params.n_swim }}" min="1" max="20">
+    </label>
+
+    <label title="Вероятность ликвидации ξe">Вероятность ликвидации ξe
+        <input type="number" name="p_eliminate" value="{{ params.p_eliminate }}" step="0.05" min="0.05" max="0.9">
+    </label>
+
+
+    <button type="submit">Запустить</button>
+</form>
+
+<div class="result-badge" style="margin-top: 25px;">
+    <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">Лучшее решение:</div>
+    <div style="font-size: 1.2rem; font-weight: bold; color: #f59e0b;">
+        f* = <span class="res-val">{{ "%.8f"|format(result.f) }}</span>
+    </div>
+    <div style="font-size: 0.85rem; margin-top: 8px; opacity: 0.8;">
+        x: {{ "%.4f"|format(result.x) }}, y: {{ "%.4f"|format(result.y) }}
+    </div>
+    <div style="font-size: 0.8rem; margin-top: 6px; color: #64748b;">
+        Всего итераций: {{ result.iterations }}
+    </div>
+</div>
+    </div>
+
+    <!-- Правая колонка: графики -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">Анимация популяции бактерий</h3>
+            {{ graph_anim|safe }}
+        </div>
+
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">Сходимость</h3>
+            {{ graph_conv|safe }}
+        </div>
+
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">3D траектория лучшей бактерии</h3>
+            {{ graph_surf|safe }}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

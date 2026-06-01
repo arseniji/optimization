@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="455025a4-ef2a-4cb3-93b8-141def8b25d0" name="Changes" comment="git init">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="455025a4-ef2a-4cb3-93b8-141def8b25d0" name="Changes" comment="old data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functons.py" beforeDir="false" afterPath="$PROJECT_DIR$/functons.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grad.py" beforeDir="false" afterPath="$PROJECT_DIR$/numeric_algorithms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grad_calculus.py" beforeDir="false" afterPath="$PROJECT_DIR$/grad_calculus.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/junk.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +20,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -36,10 +40,18 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.run.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\code\OA_client_server" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -64,7 +76,39 @@
       <option name="project" value="LOCAL" />
       <updated>1770932125276</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="functions added">
+      <option name="closed" value="true" />
+      <created>1770935034635</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1770935034635</updated>
+    </task>
+    <task id="LOCAL-00003" summary="central gradient">
+      <option name="closed" value="true" />
+      <created>1770935052825</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1770935052825</updated>
+    </task>
+    <task id="LOCAL-00004" summary="first optimization function">
+      <option name="closed" value="true" />
+      <created>1770935080621</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1770935080621</updated>
+    </task>
+    <task id="LOCAL-00005" summary="old data">
+      <option name="closed" value="true" />
+      <created>1770935087637</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1770935087637</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -80,6 +124,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="git init" />
-    <option name="LAST_COMMIT_MESSAGE" value="git init" />
+    <MESSAGE value="functions added" />
+    <MESSAGE value="central gradient" />
+    <MESSAGE value="first optimization function" />
+    <MESSAGE value="old data" />
+    <option name="LAST_COMMIT_MESSAGE" value="old data" />
   </component>
 </project>

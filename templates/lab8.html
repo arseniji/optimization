@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Lab 8: Hybrid Optimization{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Лаб 8: Гибридный алгоритм (GA + GD)</h2>
+    <div style="background: #38bdf820; color: var(--accent-color); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; border: 1px solid var(--accent-color);">
+        Гибридный метод
+    </div>
+</div>
+
+<div class="grid-container" style="grid-template-columns: 340px 1fr;">
+    <!-- Левая панель -->
+    <div class="card">
+        <form method="get">
+            <div class="form-group">
+                <label>Функция</label>
+                <select name="func">
+                    {% for f in functions %}
+                        <option value="{{f}}" {% if f == params.func %}selected{% endif %}>{{f}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Размер популяции: <b class="res-val" id="pop_val">{{ params.pop_size }}</b></label>
+                <input type="range" name="pop_size" min="10" max="500" step="10"
+                       value="{{ params.pop_size }}"
+                       oninput="document.getElementById('pop_val').innerText=this.value">
+            </div>
+
+            <div class="form-group">
+                <label>Поколений: <b class="res-val" id="gen_val">{{ params.n_gen }}</b></label>
+                <input type="range" name="n_gen" min="50" max="1000" step="50"
+                       value="{{ params.n_gen }}"
+                       oninput="document.getElementById('gen_val').innerText=this.value">
+            </div>
+
+            <div class="form-group">
+                <label>Вероятность мутации</label>
+                <input type="number" name="mut_rate" step="0.01" value="{{ params.mut_rate }}">
+            </div>
+
+            <div class="form-group">
+                <label>Шаг градиентного спуска (step0)</label>
+                <input type="number" name="step0" step="0.001" value="{{ params.step0 }}">
+            </div>
+
+            <div class="form-group">
+                <label>Точность (eps1)</label>
+                <input type="number" name="eps1" step="0.000001" value="{{ params.eps1 }}">
+            </div>
+
+            <button type="submit">Запустить гибрид</button>
+        </form>
+
+        <hr style="border: none; border-top: 1px solid var(--border-color); margin: 25px 0;">
+
+        <h3 style="margin-bottom: 15px;">Результаты:</h3>
+
+        <div class="result-badge" style="margin-bottom: 15px;">
+            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">После генетического алгоритма:</div>
+            <div style="font-size: 1.1rem; font-weight: bold;">
+                f = <span class="res-val">{{ "%.8f"|format(result.ga_best_f) }}</span>
+            </div>
+            <div style="font-size: 0.85rem; margin-top: 8px; opacity: 0.8;">
+                x: {{ "%.4f"|format(result.ga_best_x) }}, y: {{ "%.4f"|format(result.ga_best_y) }}
+            </div>
+        </div>
+
+        <div class="result-badge">
+            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">После гибридной дооптимизации:</div>
+            <div style="font-size: 1.15rem; font-weight: bold;">
+                f = <span class="res-val">{{ "%.8f"|format(result.best_f) }}</span>
+            </div>
+            <div style="font-size: 0.85rem; margin-top: 8px; opacity: 0.8;">
+                x: {{ "%.4f"|format(result.best_x) }}, y: {{ "%.4f"|format(result.best_y) }}
+            </div>
+            <div style="font-size: 0.85rem; margin-top: 6px; opacity: 0.8;">
+                Итераций GD: {{ result.gd_iterations }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Правая панель -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="card" style="min-height: 380px; padding: 10px;">
+            {{ graph_conv|safe }}
+            <p style="color: #475569; text-align: center; font-size: 0.9rem; margin-top: 10px;">
+                Сходимость генетического алгоритма
+            </p>
+        </div>
+
+        <div class="card" style="padding: 10px;">
+            {{ graph_ga|safe }}
+            <p style="color: #475569; text-align: center; font-size: 0.9rem; margin-top: 10px;">
+                Глобальный поиск генетическим алгоритмом (3D)
+            </p>
+        </div>
+
+        <div class="card" style="padding: 10px;">
+            {{ graph_gd|safe }}
+            <p style="color: #475569; text-align: center; font-size: 0.9rem; margin-top: 10px;">
+                Локальная дооптимизация градиентным спуском (3D)
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

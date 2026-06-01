@@ -32,5 +32,5 @@ def eggholder(x,y):
     return - (y + 47) * np.sin(np.sqrt(np.abs(x / 2 + (y + 47)))) - x * np.sin(np.sqrt(np.abs(x - (y + 47))))
 def table_holder(x,y):
     return - np.abs(np.sin(x) * np.cos(y) * np.exp(np.abs(1 - np.sqrt(x ** 2 + y ** 2) / np.pi)))
-
-
+def base_function(x,y):
+    return 2 * x ** 2 + x * y + y**2

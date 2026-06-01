@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Lab 1: Gradient Descent{% endblock %}
+
+{% block content %}
+    <h2>Градиентный спуск с постоянным шагом</h2>
+    <div class="grid-container">
+        <div class="card">
+            <form method="get">
+                <div class="form-group">
+                    <label>Целевая функция</label>
+                    <select name="func">
+                        {% for f in functions %}
+                            <option value="{{f}}" {% if f == params.func %}selected{% endif %}>{{f}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div style="display: flex; gap: 10px">
+                    <div class="form-group">
+                        <label>x0</label>
+                        <input type="number" step="0.1" name="x0" value="{{params.x0}}">
+                    </div>
+                    <div class="form-group">
+                        <label>y0</label>
+                        <input type="number" step="0.1" name="y0" value="{{params.y0}}">
+                    </div>
+                </div>
+                <div class="form-group"><label>Шаг (step0)</label><input type="number" step="0.001" name="step0" value="{{params.step0}}"></div>
+                <div class="form-group"><label>Точность (eps)</label><input type="number" step="0.000001" name="eps1" value="{{params.eps1}}"></div>
+                <button type="submit">Рассчитать</button>
+            </form>
+
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 25px 0;">
+
+            <h3>Результаты:</h3>
+            <div class="result-badge">Точка: <span class="res-val">({{results.x}}, {{results.y}})</span></div>
+            <div class="result-badge">Значение f: <span class="res-val">{{results.f}}</span></div>
+            <div class="result-badge">Итераций: <span class="res-val">{{results.k}}</span></div>
+        </div>
+
+        <div class="card">
+            {{graph|safe}}
+        </div>
+    </div>
+{% endblock %}

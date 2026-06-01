@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Lab 6: Immune Network{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Лаб 6: Искусственная иммунная сеть (aiNet)</h2>
+    <div style="background: #10b98120; color: #10b981; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; border: 1px solid #10b981;">
+        Immune Network
+    </div>
+</div>
+
+<div class="grid-container" style="grid-template-columns: 340px 1fr;">
+
+    <!-- Левая колонка: форма + результат -->
+    <div class="card">
+        <form method="get">
+            <label>Функция
+                <select name="func">
+                    {% for fn in functions %}
+                        <option {% if fn == params.func %}selected{% endif %}>{{ fn }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label title="Размер популяции антител |S^b|">Размер популяции |S^b|
+                <input type="number" name="pop_size" value="{{ params.pop_size }}" min="10" max="500">
+            </label>
+
+            <label title="Число лучших антител для клонирования n_b">Антител для клонирования n_b
+                <input type="number" name="n_b" value="{{ params.n_b }}" min="1" max="100">
+            </label>
+
+            <label title="Число клонов на антитело n_c">Клонов на антитело n_c
+                <input type="number" name="n_c" value="{{ params.n_c }}" min="1" max="50">
+            </label>
+
+            <label title="Число лучших клонов в память n_d">Клонов в память n_d
+                <input type="number" name="n_d" value="{{ params.n_d }}" min="1" max="50">
+            </label>
+
+            <label title="Коэффициент мутации α">Коэффициент мутации α
+                <input type="number" name="alpha" value="{{ params.alpha }}" step="0.01" min="0.001" max="2.0">
+            </label>
+
+            <label title="Доля замены худших антител b_n ∈ (0,1)">Обновление популяции b_n
+                <input type="number" name="b_n" value="{{ params.b_n }}" step="0.05" min="0.05" max="0.9">
+            </label>
+
+            <label title="Максимальное число итераций">Макс. итерации
+                <input type="number" name="max_iter" value="{{ params.max_iter }}" min="10" max="2000">
+            </label>
+
+            <label title="Число итераций стагнации для останова">Останов (стагнация)
+                <input type="number" name="stagnation_limit" value="{{ params.stagnation_limit }}" min="5" max="200">
+            </label>
+
+            <button type="submit">Запустить</button>
+        </form>
+
+        <div class="result-badge" style="margin-top: 25px;">
+            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">Лучшее решение:</div>
+            <div style="font-size: 1.2rem; font-weight: bold; color: #10b981;">
+                f* = <span class="res-val">{{ "%.8f"|format(result.f) }}</span>
+            </div>
+            <div style="font-size: 0.85rem; margin-top: 8px; opacity: 0.8;">
+                x: {{ "%.4f"|format(result.x) }},
+                y: {{ "%.4f"|format(result.y) }}
+            </div>
+            <div style="font-size: 0.8rem; margin-top: 6px; color: #64748b;">
+                Итераций: {{ result.iterations }}
+            </div>
+            <div style="font-size: 0.75rem; margin-top: 4px; color: #475569;">
+                Клонов за итерацию: n_b · n_c = {{ params.n_b }}·{{ params.n_c }} = {{ params.n_b * params.n_c }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Правая колонка: графики -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">Анимация популяции антител</h3>
+            {{ graph_anim|safe }}
+        </div>
+
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">Сходимость</h3>
+            {{ graph_conv|safe }}
+        </div>
+
+        <div class="card" style="padding: 10px;">
+            <h3 style="margin: 0 0 10px 10px; font-size: 0.95rem; color: #94a3b8;">3D траектория лучшего антитела</h3>
+            {{ graph_surf|safe }}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
